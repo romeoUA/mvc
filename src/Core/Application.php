@@ -28,6 +28,11 @@ class Application
         $this->router->addRoute($method, $path, $callback);
     }
 
+    public function registerControllers(array $controllers): void
+    {
+        $this->router->registerControllers($controllers);
+    }
+
     public function run()
     {
         echo $this->router->resolve();

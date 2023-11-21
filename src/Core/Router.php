@@ -12,6 +12,29 @@ class Router
         public View     $view
     ){}
 
+    public function registerControllers(array $controllers)
+    {
+        foreach ($controllers as $controller) {
+            $class = new \ReflectionClass($controller);
+            $methods = $class->getMethods();
+
+            foreach ($methods as $method) {
+                $attributes = $method->getAttributes(Route::class, \ReflectionAttribute::IS_INSTANCEOF);
+
+                foreach ($attributes as $attribute)
+                {
+                    $attributeInstance = $attribute->newInstance();
+
+                    $this->addRoute(
+                        $attributeInstance->method,
+                        $attributeInstance->path,
+                        [$controller, $method->getName()]
+                    );
+                }
+            }
+        }
+    }
+
     public function addRoute(string $method, string $path, mixed $callback): void
     {
         $this->routes[$method][$path] = $callback;

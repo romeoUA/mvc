@@ -3,7 +3,9 @@
 
 <?php if($status): ?>
 
-$form->generatForm();
+<form method="">
+    
+</form>
 
 
 <?php else: ?>
